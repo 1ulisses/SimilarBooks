@@ -4,6 +4,13 @@ import numpy as np
 import pandas as pd
 
 # %%
-df_book = pd.read_csv('../data/raw/Books.csv')
-df_ratings = pd.read_csv('../data/raw/Ratings.csv')
-df_users = pd.read_csv('../data/raw/Users.csv')
+df = pd.read_csv("../data/raw/books.csv", on_bad_lines="skip")
+
+# %%
+df.index = df["bookID"]
+
+# %%
+df.shape[0]
+
+# %%
+df.head()
