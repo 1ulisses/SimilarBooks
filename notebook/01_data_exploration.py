@@ -93,3 +93,16 @@ plt.xlabel("Average rating")
 plt.ylabel("Book")
 plt.tight_layout()
 plt.show()
+
+# %%
+top_publisher = df["publisher"].value_counts()[:20]
+sns.set_context("poster")
+plt.figure(figsize=(20, 12))
+sns.barplot(
+    x=top_publisher.values, y=top_publisher.index, palette="deep", hue=top_publisher.index
+)
+plt.title("Top 20 most occurent publishers")
+plt.xlabel("Count")
+plt.ylabel("Titles")
+plt.tight_layout()
+plt.show()
