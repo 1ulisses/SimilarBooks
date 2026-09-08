@@ -99,7 +99,10 @@ top_publisher = df["publisher"].value_counts()[:20]
 sns.set_context("poster")
 plt.figure(figsize=(20, 12))
 sns.barplot(
-    x=top_publisher.values, y=top_publisher.index, palette="deep", hue=top_publisher.index
+    x=top_publisher.values,
+    y=top_publisher.index,
+    palette="deep",
+    hue=top_publisher.index,
 )
 plt.title("Top 20 most occurent publishers")
 plt.xlabel("Count")
@@ -117,5 +120,39 @@ sns.barplot(
 plt.title("Top 20 most occurent author")
 plt.xlabel("Count")
 plt.ylabel("Titles")
+plt.tight_layout()
+plt.show()
+
+# %%
+top_rated = df.nlargest(20, "ratings_count")
+
+sns.set_context("poster")
+plt.figure(figsize=(20, 12))
+sns.barplot(
+    x=top_rated["ratings_count"].values,
+    y=top_rated["title"].values,
+    palette="deep",
+    hue=top_rated["title"].values,
+)
+plt.title("top 20 most rated books")
+plt.xlabel("ratings count")
+plt.ylabel("title")
+plt.tight_layout()
+plt.show()
+
+# %%
+top_text_reviews = df.nlargest(20, "text_reviews_count")
+
+sns.set_context("poster")
+plt.figure(figsize=(20, 12))
+sns.barplot(
+    x=top_text_reviews["text_reviews_count"].values,
+    y=top_text_reviews["title"].values,
+    palette="deep",
+    hue=top_text_reviews["title"].values,
+)
+plt.title("top 20 most text rated books")
+plt.xlabel("Text rate count")
+plt.ylabel("title")
 plt.tight_layout()
 plt.show()
