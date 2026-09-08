@@ -30,9 +30,9 @@ plt.figure(figsize=(20, 12))
 sns.barplot(
     x=top_titles.values, y=top_titles.index, palette="deep", hue=top_titles.index
 )
-plt.title("Top 20 livros mais ocorridos")
-plt.xlabel("Quantidade de ocorrências")
-plt.ylabel("Nomes")
+plt.title("Top 20 most occurent books")
+plt.xlabel("Count")
+plt.ylabel("Titles")
 plt.tight_layout()
 plt.show()
 
