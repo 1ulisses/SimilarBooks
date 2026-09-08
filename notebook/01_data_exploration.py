@@ -1,11 +1,14 @@
 # %%
+import os
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
 
-# %%
-df = pd.read_csv("../data/raw/books.csv", on_bad_lines="skip")
+for dirname, _, filenames in os.walk("../data/raw"):
+    for filename in filenames:
+        print(os.path.join(dirname, filename))
 
 # %%
 df.index = df["bookID"]
