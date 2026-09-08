@@ -11,6 +11,7 @@ for dirname, _, filenames in os.walk("../data/raw"):
         print(os.path.join(dirname, filename))
 
 # %%
+df = pd.read_csv("../data/raw/books.csv", on_bad_lines="skip")
 df.index = df["bookID"]
 
 # %%
@@ -20,7 +21,9 @@ df.shape[0]
 df.head()
 
 # %%
-# Livro que mais ocorrem
+df.isnull().sum()
+
+# %%
 sns.set_context("poster")
 plt.figure(figsize=(20, 12))
 books = df["title"].value_counts()[:20]
