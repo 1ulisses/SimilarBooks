@@ -106,3 +106,16 @@ plt.xlabel("Count")
 plt.ylabel("Titles")
 plt.tight_layout()
 plt.show()
+
+# %%
+top_author = df["authors"].value_counts()[:20]
+sns.set_context("poster")
+plt.figure(figsize=(20, 12))
+sns.barplot(
+    x=top_author.values, y=top_author.index, palette="deep", hue=top_author.index
+)
+plt.title("Top 20 most occurent author")
+plt.xlabel("Count")
+plt.ylabel("Titles")
+plt.tight_layout()
+plt.show()
