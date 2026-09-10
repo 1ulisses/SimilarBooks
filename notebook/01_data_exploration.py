@@ -211,3 +211,13 @@ plt.xlabel("Count")
 plt.ylabel("Year")
 plt.tight_layout()
 plt.show()
+
+# %%
+sns.set_context("poster")
+plt.figure(figsize=(20, 12))
+sns.histplot(df["average_rating"], bins=30, kde=True, color="steelblue")
+plt.title("Distribution of average rating")
+plt.xlabel("Average rating")
+plt.ylabel("Count")
+plt.tight_layout()
+plt.show()
