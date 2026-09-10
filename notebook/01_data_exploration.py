@@ -135,8 +135,8 @@ sns.barplot(
     hue=top_rated["title"].values,
 )
 plt.title("top 20 most rated books")
-plt.xlabel("ratings count")
-plt.ylabel("title")
+plt.xlabel("Ratings count")
+plt.ylabel("Title")
 plt.tight_layout()
 plt.show()
 
@@ -151,8 +151,31 @@ sns.barplot(
     palette="deep",
     hue=top_text_reviews["title"].values,
 )
-plt.title("top 20 most text rated books")
-plt.xlabel("Text rate count")
-plt.ylabel("title")
+plt.title("Top 20 most text rated books")
+plt.xlabel("Text rating count")
+plt.ylabel("Title")
+plt.tight_layout()
+plt.show()
+
+# %%
+top_year = (
+    pd.to_datetime(df["publication_date"], errors="coerce")
+    .dt.year.dropna()
+    .astype(int)
+    .value_counts()[:20]
+).sort_values(ascending=False)
+top_year.index = top_year.index.astype(str)
+sns.set_context("poster")
+plt.figure(figsize=(20, 12))
+sns.barplot(
+    x=top_year.values,
+    y=top_year.index,
+    palette="deep",
+    hue=top_year.index,
+    legend=False,
+)
+plt.title("Top 20 most occurent publication years")
+plt.xlabel("Count")
+plt.ylabel("Year")
 plt.tight_layout()
 plt.show()
