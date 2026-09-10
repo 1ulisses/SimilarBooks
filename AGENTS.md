@@ -19,8 +19,3 @@ Book similarity/recommendation project. Early stage — raw data and exploration
 ## Dependencies (not managed)
 
 No `requirements.txt` or `pyproject.toml`. Core stack: `pandas`, `numpy`, `matplotlib`, `seaborn`.
-
-## Gotchas
-
-- The `script` file contains a hardcoded NVIDIA API key — do not commit or expose it.
-- No `.gitignore` — be careful not to commit data outputs or secrets.
