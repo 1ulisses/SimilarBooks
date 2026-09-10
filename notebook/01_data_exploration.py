@@ -27,6 +27,9 @@ df = pd.read_csv("../data/raw/books.csv", on_bad_lines="skip")
 df.index = df["bookID"]
 
 # %%
+df["num_pages"] = df["  num_pages"]
+
+# %%
 df.shape[0]
 
 # %%
@@ -165,6 +168,23 @@ sns.barplot(
 )
 plt.title("Top 20 most text rated books")
 plt.xlabel("Text rating count")
+plt.ylabel("Title")
+plt.tight_layout()
+plt.show()
+
+# %%
+top_pages = df.nlargest(20, "num_pages")
+
+sns.set_context("poster")
+plt.figure(figsize=(20, 12))
+sns.barplot(
+    x=top_pages["num_pages"].values,
+    y=top_pages["title"].values,
+    palette="deep",
+    hue=top_pages["title"].values,
+)
+plt.title("Top 20 books by pages")
+plt.xlabel("pages")
 plt.ylabel("Title")
 plt.tight_layout()
 plt.show()
