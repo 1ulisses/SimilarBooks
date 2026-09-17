@@ -25,11 +25,20 @@ for dirname, _, filenames in os.walk("../data/raw"):
 
 # %%
 df = pd.read_csv("../data/raw/books.csv", on_bad_lines="skip")
+df.index = df["bookID"]
 
 # %%
-df.index = df["bookID"]
 df["num_pages"] = df["  num_pages"]
-df["publication_date"] = pd.to_datetime(df["publication_date"], errors="coerce")
-df["publication_year"] = (
-    pd.to_datetime(df["publication_date"], errors="coerce").dt.year.dropna().astype(int)
+df["publication_year"] = pd.to_datetime(df["publication_date"], errors="coerce").dt.year
+
+# %%
+df = df.drop(
+    columns=[
+        "publication_date",
+        "  num_pages",
+        "isbn",
+        "isbn13",
+        "publisher",
+        "language_code",
+    ]
 )
