@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
 
 for dirname, _, filenames in os.walk("../data/raw"):
     for filename in filenames:
@@ -30,6 +30,7 @@ df.index = df["bookID"]
 # %%
 df["num_pages"] = df["  num_pages"]
 df["publication_year"] = pd.to_datetime(df["publication_date"], errors="coerce").dt.year
+df["publication_year"] = df["publication_year"].fillna(df["publication_year"].median())
 
 # %%
 df = df.drop(
@@ -42,3 +43,15 @@ df = df.drop(
         "language_code",
     ]
 )
+
+# %%
+num_cols = [
+    "average_rating",
+    "ratings_count",
+    "text_reviews_count",
+    "num_pages",
+    "publication_year",
+]
+
+scaler = StandardScaler()
+df[num_cols] = scaler.fit_transform(df[num_cols])
