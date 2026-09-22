@@ -17,6 +17,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from scipy.sparse import hstack
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import StandardScaler
 
 for dirname, _, filenames in os.walk("../data/raw"):
@@ -31,6 +34,7 @@ df.index = df["bookID"]
 df["num_pages"] = df["  num_pages"]
 df["publication_year"] = pd.to_datetime(df["publication_date"], errors="coerce").dt.year
 df["publication_year"] = df["publication_year"].fillna(df["publication_year"].median())
+df["authors"] = df["authors"].str.replace("/", " ")
 
 # %%
 df = df.drop(
@@ -55,3 +59,13 @@ num_cols = [
 
 scaler = StandardScaler()
 df[num_cols] = scaler.fit_transform(df[num_cols])
+
+# %%
+text_features = df["title"] + " " + df["authors"]
+tfidf = TfidfVectorizer(stop_words="english", max_features=5000)
+tfidf_matrix = tfidf.fit_transform(text_features)
+
+# %%
+X = hstack([df[num_cols].values, tfidf_matrix])
+knn = NearestNeighbors(n_neighbors=6, metric="cosine")
+knn.fit(X)
