@@ -13,10 +13,7 @@
 # %%
 import os
 
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
-import seaborn as sns
 from scipy.sparse import hstack
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import NearestNeighbors
@@ -70,21 +67,24 @@ X = hstack([df[num_cols].values, tfidf_matrix])
 knn = NearestNeighbors(n_neighbors=6, metric="cosine")
 knn.fit(X)
 
-# %%
-knn_text = NearestNeighbors(n_neighbors=5, metric="cosine")
-knn_text.fit(tfidf_matrix)
-
 
 # %%
-def search_query(query, n=5):
-    query_vec = tfidf.transform([query])
-    distances, indices = knn_text.kneighbors(query_vec, n_neighbors=n)
+def search_books(title, n=5):
+    matches = df[df["title"].str.lower().str.contains(title.lower(), na=False)]
+    if matches.empty:
+        raise ValueError("No book found")
 
-    results = df.iloc[indices[0]]
-    results = results.copy()
-    results["score"] = 1 - distances[0]
+    book_row_idx = df.index.get_loc(matches.index[0])
+    query_vec = X.tocsr()[book_row_idx]
+
+    distances, indices = knn.kneighbors(query_vec, n_neighbors=n + 1)
+    rec_indices = indices[0][1:]
+    rec_distances = distances[0][1:]
+
+    results = df.iloc[rec_indices].copy()
+    results["score"] = 1 - rec_distances
     return results[["title", "authors", "average_rating", "score"]]
 
 
 # %%
-print(search_query("crime and punishment"))
+print(search_books("Anna Karenina"))
