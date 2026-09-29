@@ -69,3 +69,22 @@ tfidf_matrix = tfidf.fit_transform(text_features)
 X = hstack([df[num_cols].values, tfidf_matrix])
 knn = NearestNeighbors(n_neighbors=6, metric="cosine")
 knn.fit(X)
+
+# %%
+knn_text = NearestNeighbors(n_neighbors=5, metric="cosine")
+knn_text.fit(tfidf_matrix)
+
+
+# %%
+def search_query(query, n=5):
+    query_vec = tfidf.transform([query])
+    distances, indices = knn_text.kneighbors(query_vec, n_neighbors=n)
+
+    results = df.iloc[indices[0]]
+    results = results.copy()
+    results["score"] = 1 - distances[0]
+    return results[["title", "authors", "average_rating", "score"]]
+
+
+# %%
+print(search_query("crime and punishment"))
