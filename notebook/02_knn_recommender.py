@@ -84,7 +84,7 @@ def search_book(query, n=5):
 
 
 # %%
-search_book("A Midsummer Night's Dream")
+search_book("Sailing for Dummies")
 
 
 # %%
@@ -106,4 +106,4 @@ def recommend_book(title, n=7):
 
 
 # %%
-recommend_book("Anna Karenina")
+recommend_book("Sailing for Dummies")
