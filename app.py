@@ -83,80 +83,54 @@ def clear():
     os.system("cls" if os.name == "nt" else "clear")
 
 
+def print_header(subtitle=None):
+    clear()
+    print("SimilarBooks: Sistema de pesquisa e recomendação de livros\n")
+    if subtitle:
+        print(subtitle)
+
+
+def pause():
+    input("\nPressione Enter para continuar...")
+
+
+def submenu(title, prompt, action):
+    while True:
+        print_header(title)
+        print("[1] Voltar")
+        print("[2] Sair")
+        user = input(prompt)
+
+        if user == "1":
+            return
+        if user == "2":
+            exit()
+
+        try:
+            results = action(user)
+            print(results)
+        except ValueError:
+            print("Livro não achado")
+        pause()
+
+
 def menu():
     while True:
-        clear()
-        print("SimilarBooks: Sistema de pesquisa e recomendação de livros\n")
+        print_header()
         print("[1] Pesquisar por livro")
         print("[2] Recomendar por livro")
         print("[3] Sair")
         user = input("Selecione [1-3]: ")
 
-        try:
-            if user == "1":
-                menu_search()
-                break
-            elif user == "2":
-                menu_recommend()
-                break
-            elif user == "3":
-                break
-            else:
-                raise ValueError("Valor inválido")
-        except ValueError:
+        if user == "1":
+            submenu("Pesquisar por livro", "Insira um texto: ", search_book)
+        elif user == "2":
+            submenu("Recomendar por livro", "Insira nome do livro: ", recommend_book)
+        elif user == "3":
+            return
+        else:
             print("Valor inválido")
-            input("\nPressione Enter para continuar...")
-            continue
-
-
-def menu_search():
-    while True:
-        clear()
-        print("SimilarBooks: Sistema de pesquisa e recomendação de livros\n")
-        print("Pesquisar por livro")
-        print("[1] Voltar")
-        print("[2] Sair")
-        user = input("Insira um texto: ")
-
-        try:
-            if user == "1":
-                menu()
-                break
-            elif user == "2":
-                break
-
-            results = search_book(user)
-            print(results)
-            input("\nPressione Enter para continuar...")
-        except ValueError:
-            print("Livro não achado")
-            input("\nPressione Enter para continuar...")
-            continue
-
-
-def menu_recommend():
-    while True:
-        clear()
-        print("SimilarBooks: Sistema de pesquisa e recomendação de livros\n")
-        print("Recomendar por livro")
-        print("[1] Voltar")
-        print("[2] Sair")
-        user = input("Insira nome do livro: ")
-
-        try:
-            if user == "1":
-                menu()
-                break
-            elif user == "2":
-                break
-
-            results = recommend_book(user)
-            print(results)
-            input("\nPressione Enter para continuar...")
-        except ValueError:
-            print("Livro não achado")
-            input("\nPressione Enter para continuar...")
-            continue
+            pause()
 
 
 menu()
