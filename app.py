@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 from scipy.sparse import hstack
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -77,8 +79,13 @@ def recommend_book(title, n=7):
     return results[["title", "authors", "average_rating", "score"]]
 
 
+def clear():
+    os.system("cls" if os.name == "nt" else "clear")
+
+
 def menu():
     while True:
+        clear()
         print("SimilarBooks: Sistema de pesquisa e recomendação de livros\n")
         print("[1] Pesquisar por livro")
         print("[2] Recomendar por livro")
@@ -93,16 +100,18 @@ def menu():
                 menu_recommend()
                 break
             elif user == "3":
-                exit()
+                break
             else:
                 raise ValueError("Valor inválido")
         except ValueError:
             print("Valor inválido")
+            input("\nPressione Enter para continuar...")
             continue
 
 
 def menu_search():
     while True:
+        clear()
         print("SimilarBooks: Sistema de pesquisa e recomendação de livros\n")
         print("Pesquisar por livro")
         print("[1] Voltar")
@@ -118,13 +127,16 @@ def menu_search():
 
             results = search_book(user)
             print(results)
+            input("\nPressione Enter para continuar...")
         except ValueError:
             print("Livro não achado")
+            input("\nPressione Enter para continuar...")
             continue
 
 
 def menu_recommend():
     while True:
+        clear()
         print("SimilarBooks: Sistema de pesquisa e recomendação de livros\n")
         print("Recomendar por livro")
         print("[1] Voltar")
@@ -140,8 +152,10 @@ def menu_recommend():
 
             results = recommend_book(user)
             print(results)
+            input("\nPressione Enter para continuar...")
         except ValueError:
             print("Livro não achado")
+            input("\nPressione Enter para continuar...")
             continue
 
 
